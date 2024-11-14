@@ -52,6 +52,7 @@ class DBManager:
 
     @staticmethod
     def connect_db():
+        '''Подключение к БД'''
         conn = psycopg2.connect(dbname="homework3",
                                 host="localhost",
                                 user="postgres",
@@ -62,6 +63,7 @@ class DBManager:
 
     @staticmethod
     def save_date_to_database(employers_list, vacancies_list):
+        '''Метод заполнения таблиц БД полученные из API запроса'''
 
         conn = DBManager.connect_db()
 
@@ -100,6 +102,7 @@ class DBManager:
         conn.close()
 
     def get_companies_and_vacancies_count(self):
+        '''Формирует и выводит результат sql запроса. Выводит список компаний и количество вакансий этой компании'''
         conn = DBManager.connect_db()
         conn.cursor()
         with conn.cursor() as cur:
@@ -118,6 +121,8 @@ class DBManager:
 
     @staticmethod
     def get_all_vacancies():
+        '''Формирует и выводит результат sql запроса. Выводит список всех вакансий с названием компании,
+         названием вакансии, зарпалтой и ссылкой на вакансию'''
         conn = DBManager.connect_db()
         conn.cursor()
         with conn.cursor() as cur:
@@ -135,6 +140,8 @@ class DBManager:
 
     @staticmethod
     def get_avg_salary():
+        '''Формирует и выводит результат sql запроса. выводит среднюю зарпалту
+         по всем вакансиям округляя её для удобства'''
         conn = DBManager.connect_db()
         conn.cursor()
         with conn.cursor() as cur:
@@ -149,27 +156,36 @@ class DBManager:
 
     @staticmethod
     def get_vacancies_with_higher_salary():
+        '''Формирует и выводит результат sql запроса. Список вакансий в которых зарпалата
+         выше средней зарплаты относительно все вакансий'''
         conn = DBManager.connect_db()
         conn.cursor()
+
         with conn.cursor() as cur:
             cur.execute('''
             SELECT * FROM vacancies WHERE salary > (SELECT AVG(salary) FROM vacancies);
             ''')
             rows = cur.fetchall()
+
             for row in rows:
                 print(row)
+
         cur.close()
         conn.close()
 
     @staticmethod
     def get_vacancies_with_keyword(key_word):
+        '''Формирует и выводит результат список вакансий sql запроса по ключевому слову в назваинии вакансии'''
         conn = DBManager.connect_db()
         conn.cursor()
+
         with conn.cursor() as cur:
             keyword = key_word.replace("'", "''")
             cur.execute(f"SELECT * FROM vacancies WHERE name LIKE '%{keyword}%'")
             rows = cur.fetchall()
+
             for row in rows:
                 print(row)
+
         cur.close()
         conn.close()

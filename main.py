@@ -10,19 +10,17 @@ def start_test_program():
 
     hh_api = HeadHunterAPIEmployers()
 
-    employers = {"1C-Рарус", "Почта банк", 'DNS Технологии', 'В2В-Персонал', '1C-Рарус',
-                 'Газпром нефть', 'ПАО «Россети Сибирь»'}
+    employers = {"1C-Рарус", "Почта банк", 'DNS Технологии', 'В2В-Персонал', 'Т-банк',
+                 'Газпром нефть', 'ПАО «Россети Сибирь»', 'Тензор', 'ВТБ Банк', 'Красное & Белое, розничная сеть'}
+
+
+
 
     employers_id = hh_api.get_employer_id(employers)
 
-
+    print(employers_id)
 
     vac_list_by_empl = hh_api.get_vac_by_employer(employers_id)
-
-
-
-
-
 
     db = DBManager()
 

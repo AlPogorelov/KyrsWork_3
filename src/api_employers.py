@@ -8,6 +8,7 @@ class AbstractHeadHunter(ABC):
     def connect_API(self):
         pass
 
+
     def get_employer_id(self, *args):
         pass
 
